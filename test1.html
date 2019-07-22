@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Page Title</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
+    <script src='main.js'></script>
+</head>
+<style>
+    header {
+        background-color: white;
+        padding: 5px;
+    }
+
+    div.header {
+        display: flex;
+        align-items: center;
+        justify-content: left;
+        height: 70px;
+    }
+
+    div.header img {
+        width: 150px;
+        height: 70px;
+    }
+
+
+
+    nav {
+        background-color: green;
+        margin: 0;
+        padding: 0;
+    }
+
+    ul.main-menu {
+        display: flex;
+        list-style: none;
+        margin: 0;
+        color: white;
+        padding: 0;
+    }
+
+    ul.main-menu a {
+        display: block;
+        color: inherit;
+        text-decoration: none;
+        padding: 14px 16px;
+    }
+
+    ul.main-menu a:hover {
+        background-color: #ddd;
+        color: black;
+    }
+
+    .all {
+        margin: 0 28.5%;
+        border: 1px solid black;
+    }
+    .lom {
+        border: 1px solid black;
+
+    }
+
+    .ma {
+        background-color: cornsilk;
+    }
+
+    .bz-width-30 {
+        width: 600px;
+    }
+
+    .bz-width-50 {
+        width: 50%;
+    }
+
+    .bz-album {
+        display: flex;
+        
+    }
+
+    .w3-card-4 {
+        margin: 10px;
+    }
+</style>
+
+
+<body>
+    <header>
+        <div class="header">
+            <a href="main.html"><img alt="로고" src="image/logo.png"></a>
+
+
+        </div>
+    </header>
+    <nav>
+        <ul class="main-menu">
+            <li><a href="Board_list1.html">공지사항</a></li>
+            <li><a href="vigunLife.html">채식소개</a></li>
+            <li><a href="Board_List.html">리뷰 게시판</a></li>
+        </ul>
+    </nav>
+
+<div class="all">
+    <div class="bz-album">
+        <div class="w3-card-4 bz-width-30">
+            <header class="w3-container w3-blue w3-center">
+                <h3>식당사진</h3>
+            </header>
+            <img src="image/ba.jpg" width="400px" height="300px" alt="항공사진">
+            <footer class="w3-container w3-center">
+            </footer>
+        </div>
+        <div class="w3-card-4 bz-width-30">
+            <header class="w3-container w3-blue w3-center">
+                <h3>오시는 길</h3>
+            </header>
+            <img src="image/KakaoTalk_20190716_174116207.jpg" width="330px" height="300px" alt="항공사진">
+            <footer class="w3-container w3-center">
+            </footer>
+        </div>
+    </div>
+
+    <div class="ma">
+        <p>&nbsp광주 동구 문화전당로23번길 36-1</p>
+        <p>&nbsp영업 시각 : 08:30 ~ 17:00</p>
+        <p>&nbsp수제 마카롱 :2000원</p>
+        <p>&nbsp노버터, 우유, 계란 빵</p>
+        <p>&nbsp천연발효종 빵</p>
+        <br><br>
+    </div>
+
+    <!-- 댓글 부분 -->
+    <div id="comment">
+        <table border="1" bordercolor="lightgray">
+            <!-- 댓글 목록 -->
+            <c:if test="${requestScope.commentList != null}">
+                <c:forEach var="comment" items="${requestScope.commentList}">
+                    <tr>
+                        <!-- 아이디, 작성날짜 -->
+                        <td width="150">
+                            <div>
+                                <c:if test="${comment.comment_level > 1}">
+                                    &nbsp;&nbsp;&nbsp;&nbsp;
+
+                                </c:if>
+
+                                작성자 구간<br>
+                                <font size="2" color="lightgray"></font>
+                            </div>
+                        </td>
+                        <!-- 본문내용 -->
+                        <td width="550">
+                            <div class="text_wrapper">
+                                첫글의 내용
+                            </div>
+                        </td>
+                        <!-- 버튼 -->
+                        <td width="100">
+                            <div id="btn" style="text-align:center;">
+                                <a href="#" onclick="cmReplyOpen(${comment.comment_num})">[답변]</a><br>
+                                <!-- 댓글 작성자만 수정, 삭제 가능하도록 -->
+                                <c:if test="${comment.comment_id == sessionScope.sessionID}">
+                                    <a href="#">[수정]</a><br>
+                                    <a href="#">[삭제]</a>
+                                </c:if>
+                            </div>
+                        </td>
+                    </tr>
+
+                </c:forEach>
+            </c:if>
+
+            <!-- 로그인 했을 경우만 댓글 작성가능 -->
+
+            <tr bgcolor="#F5F5F5">
+                <form id="writeCommentForm">
+                    <input type="hidden" name="comment_board">
+                    <input type="hidden" name="comment_id">
+                    <!-- 아이디-->
+                    <td width="150">
+                        <div>
+                            리뷰작성
+                        </div>
+                    </td>
+                    <!-- 본문 작성-->
+                    <td width="550">
+                        <div>
+                            <textarea name="comment_content" rows="4" cols="70"></textarea>
+                        </div>
+                    </td>
+                    <!-- 댓글 등록 버튼 -->
+                    <td width="100">
+                        <div id="btn" style="text-align:center;">
+                            <p><a href="#" onclick="writeCmt()">[댓글등록]</a></p>
+                        </div>
+                    </td>
+                </form>
+            </tr>
+
+
+        </table>
+    </div>
+    </div>
+</div>
+</body>
+
+</html>
